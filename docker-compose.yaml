@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  #nginx service
+  web:
+    image: nginx:latest
+    container_name: loans-web
+    ports:
+      - "888:80"
+    volumes:
+      - ./src:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+
+  #php service
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: loans-app
+    volumes:
+      - ./src:/var/www
